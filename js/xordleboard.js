@@ -88,16 +88,16 @@ export class Game_Board{
                     // current row of entry has active class
                     tile.classList.add("active")
                     tile.addEventListener("click", () => {
-                        this.activate_row(this.height-1);
-                        this.deactivate_row(this.height-2);
+                        this.activate_row(this.height-2);
+                        this.deactivate_row(this.height-1);
                     })
                 }
                 if (y == this.height-1) {
                     // other row of entry has inactive class
                     tile.classList.add("inactive")
                     tile.addEventListener("click", () => {
-                        this.activate_row(this.height-2);
-                        this.deactivate_row(this.height-1);
+                        this.activate_row(this.height-1);
+                        this.deactivate_row(this.height-2);
                     })
 
                 }
