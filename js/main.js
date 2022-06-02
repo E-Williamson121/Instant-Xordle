@@ -38,7 +38,7 @@ function start_game() {
     let giveup = document.getElementById("giveup");
     giveup.style.display = "inline-block";
 
-    let game = new Game_Board(5, WORDS, local_storage, game_mode);
+    game = new Game_Board(5, WORDS, local_storage, game_mode);
     game.colouring_method = xordle_colour
     game.end = game_over;
     game.initialize(first_words);
@@ -105,6 +105,7 @@ function setup_buttons() {
 let local_storage = new Storage();
 let game_mode = "random";
 let entries = load_game();
+let game = null;
 
 let WORDS = entries[0].map(function(x) {return x.toUpperCase()});
 let first_words = entries[1].map(function(x) {return x.toUpperCase()});
