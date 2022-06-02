@@ -1,0 +1,288 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+hr {
+    width: 500px;
+}
+
+#title {
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+#board {
+    width: 320px;
+    height: 360px;
+    align-self: center;
+    padding-left: 20px;
+    margin: auto;
+    margin-top: 3px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#game {
+    align-items: center;
+}
+
+#keyboard {
+    width: 400px;
+    margin: auto;
+}
+
+.huhtile {
+    /* box */
+    border: 2px solid white;
+    border-radius: 5px;
+    width: 12px;
+    height: 50px;
+    padding-left: 10px;
+    margin: 2px;
+
+    /* letters */
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tile {
+    /* box */
+    border: 2px solid rgb(150, 150, 150);
+    border-radius: 5px;
+    width: 50px;
+    height: 50px;
+    margin: 2px;
+
+    /* letters */
+    color: black;
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.emptyrow {
+    /* box */
+    border: 2px;
+    border-radius: 5px;
+    width: 312px;
+    height: 50px;
+    margin: 2px;
+}
+
+/* inactive tile has different text and bg colour */
+.inactive {
+    color: rgb(102, 144, 218);
+    background-color:rgb(225, 225, 225)
+}
+
+.keyboard-row {
+    width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.spacer {
+    /* box */
+    width: 16px;
+    height: 40px;
+    margin: 2px;
+}
+
+.key-tile {
+    /* box */
+    background-color: #cdcdcd;
+    border: 2px solid rgb(150, 150, 150);
+    border-radius: 5px;
+    width: 32px;
+    height: 40px;
+    margin: 2px;
+
+    /* letters */
+    color: black;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wide-key-tile {
+    /* box */
+    background-color: #cdcdcd;
+    border: 2px solid rgb(150, 150, 150);
+    border-radius: 5px;
+    width: 72px;
+    height: 40px;
+    margin: 2px;
+
+    /* letters */
+    color: black;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.key-counter-tile {
+    /* box */
+    background-color: #cdcdcd;
+    border: 2px solid rgb(150, 150, 150);
+    border-radius: 5px;
+    width: 125px;
+    height: 40px;
+    margin: 2px;
+
+    /* letters */
+    color: black;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.correct {
+    /* tile when letter in right spot */
+    background-color: rgb(99, 171, 120);
+    color: gainsboro;
+    border-color: rgb(149, 216, 169);
+}
+
+.present {
+    /* tile when letter in answer elsewhere */
+    background-color: rgb(231, 196, 0);
+    color: gainsboro;
+    border-color: rgb(224, 212, 142);
+}
+
+.absent {
+    /* tile when letter not in answer */
+    background-color: rgb(162, 162, 162);
+    color: gainsboro;
+    border-color: gainsboro;
+}
+
+/* annotation for keyboard tiles that are notes in the other guess */
+.activekey {
+    background-color: rgb(102, 144, 218);
+    color: black;
+}
+
+#centerstuff {
+    width: 500px;
+    display: inline-block;
+    align-content: center;
+    margin: 0, auto;
+}
+
+#timerstuff {
+    width: 150px;
+    display: inline-block;
+    align-content: center;
+    margin: 0, auto;
+    position:relative; 
+    right: 25px;
+}
+
+#timer {
+    /* box */
+    border: 2px;
+    width: 72px;
+    height: 40px;
+    margin: 0, 4px;
+
+    /* numbers */
+    font-size: 24px;
+    color: rgb(50, 50, 50);
+    font-weight: bold;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+}
+
+#timerbutton {
+    /* box */
+    border: 2px;
+    width: 32px;
+    height: 40px;
+    margin: 4px, 0;
+
+    /* letters */
+    color: rgb(100, 100, 100);
+    font-size: 24px;
+    font-family: Material Icons;
+    position:relative; 
+    top: 3px;
+    left: 3px;
+    font-weight: bold;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+}
+
+.blockspacer {
+    /* box */
+    display: inline-block;
+    width: 40px;
+    height: 32px;
+    margin: 2px;
+}
+
+#giveup {
+     /* box */
+     background-color: #cd4040;
+     border: 2px solid #cd0000;
+     border-radius: 5px;
+     width: 112px;
+     height: 32px;
+     margin: 2px;
+ 
+     /* letters */
+     color: white;
+     font-size: 24px;
+     font-weight: bold;
+     display: inline-block;
+     text-transform: uppercase;
+     justify-content: center;
+     align-content: center;   
+}
+
+#replay {
+    /* box */
+    background-color: #40cd40;
+    border: 2px solid #00cd00;
+    border-radius: 5px;
+    width: 112px;
+    height: 32px;
+    margin: 2px;
+
+    /* letters */
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    display: inline-block;
+    text-transform: uppercase;
+    justify-content: center;
+    align-content: center;   
+}
+
+/* class for text with no selection allowed */
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Safari */
+    -khtml-user-select: none;    /* Konqueror HTML */
+    -moz-user-select: none;      /* Old versions of Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
