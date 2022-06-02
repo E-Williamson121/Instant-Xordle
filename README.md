@@ -2,7 +2,7 @@
 A spinoff of Xordle (original by @Keldor) in which you guess the two secrets on the first turn.
 
 This spinoff is (at the time of writing) still only a prototype/proof-of-concept. Things to add in future include:
-- Daily mode
+- Daily mode/Daily puzzles
 - Popup menus such as settings, help, and stats
 - The ability to export a tile grid after a game in order to share your game result with the whole world
 
