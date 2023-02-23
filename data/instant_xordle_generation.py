@@ -1,3 +1,30 @@
+""" 
+This is the code that is used to search for the instant xordle puzzles.
+Due to the large number of answer pairs, brute-force searching the space of possibilities is not feasible, 
+nor is the typical approach of generating a lookup table of viable answer pairs for each possible word colouring.
+
+Thus, the approach taken is to generate puzzles by using a solver algorithm to play until only the answer remains.
+
+The algorithm in question works as follows:
+
+Various functions (represent, join_info) are used to determine the information imparted by a given puzzle state.
+This information is then used by find_survivors, which runs a binary tree algorithm (either the information on a letter applies to one word or the other), 
+within each branch of the tree, enumerating the possible outcome of all such decisions, possible words are determined,
+ultimately allowing the solver to find the list of letter-disjoint words which are not yet eliminated by the guesses played.
+
+From there, a basic estimation is applied to play the word in the word list that maximizes probable letter hits (while also not having too many yellows/greens).
+(this is a weaker heuristic than calculating statistical entropy, but due to the number of possible answer pairs, doing that calculation is also intractible)
+
+If the solver fails to find a solution in 4 guesses, it gets to try again, starting with the guess from the previous run estimated to have been the best one.
+
+The solver runs over 100,000 randomly chosen answer pairs and starting guesses and saves all puzzles found to a file.
+
+The numbers of puzzles of each length produced in the first run of this algorithm following its creation were as follows:
+4 - 4096
+3 - 184
+2 - 1
+"""
+
 import random
 
 with open("wordles.txt") as f:
