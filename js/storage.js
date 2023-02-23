@@ -2,8 +2,11 @@ export class Storage {
     constructor() {
         // set default values
         this.global_stats = this.default("globals");
+        this.game_index = 0;
         this.daily_game_session = this.default("daily");
         this.random_game_session = this.default("random");
+        this.settings = this.default("settings");
+        this.timer = null;
     }
 
     // utility function setting default object values
@@ -14,14 +17,13 @@ export class Storage {
                 "games_played" : 0,
                 "current_streak" : 0,
                 "max_streak" : 0,
-                "average_solve_time" : 0
+                "solve_times" : []
             }
         }
 
         if (item == "daily") { 
             return {
                 "game_timer" : 0, // integer value of seconds
-                "game_index" : null, // integer value for lookup of puzzle
                 "won_game" : null, // boolean detailing if the game was won or given up
                 "game_guess" : null // ["AAAAA", "BBBBB"] or null
             }
@@ -35,6 +37,18 @@ export class Storage {
                 "game_guess" : null // ["AAAAA", "BBBBB"] or null
             }
         }
+
+        if (item == "settings") {
+            return {
+                "dark_mode" : false,
+                "hide_timer" : false,
+                "share_timer" : true,
+                "help_seen" : false,
+                "correctselectcol" : 10,
+                "presentselectcol" : 9,
+                "inactiveselectcol" : 11, 
+            }
+        }
     }
 
     update_globals(won, time) {
@@ -45,9 +59,15 @@ export class Storage {
             this.global_stats["games_won"]  = this.global_stats["games_won"] + 1;
             this.global_stats["current_streak"] = this.global_stats["current_streak"] + 1;
 
-            // update the average solve time: average(n+1) = (n*average(n) + time)/(n + 1)
-            let n = this.global_stats["games_played"];
-            this.global_stats["average_solve_time"] = (n*(this.global_stats["average_solve_time"]) + time)/(n + 1);
+            // update solve times array and average time
+            this.global_stats["solve_times"].push(time);
+            let total_time = this.global_stats["solve_times"].reduce( (acc, x) => (acc + x), 0);
+            let num_games = this.global_stats["solve_times"].length;
+            if (num_games == 0) {
+                this.global_stats["average_solve_time"] = 0;
+            } else {
+                this.global_stats["average_solve_time"] = total_time/num_games;
+            }
         } else {
             // lost, so reset the streak count
             this.global_stats["current_streak"] = 0;
@@ -68,16 +88,24 @@ export class Storage {
         }
     }
 
+    quickload_daily(index) {
+        let daily_data = window.localStorage.getItem(`daily_${index}`);
+        if (daily_data) return JSON.parse(daily_data);
+    }
+
     // method for saving stats to local storage
     save_data(to_save) {
         if (to_save.includes("globals")) {
             window.localStorage.setItem("globals", JSON.stringify(this.global_stats));
         }
         if (to_save.includes("daily")) {
-            window.localStorage.setItem("daily", JSON.stringify(this.daily_game_session));
+            window.localStorage.setItem(`daily_${this.game_index}`, JSON.stringify(this.daily_game_session));
         }
         if (to_save.includes("random")) {
             window.localStorage.setItem("random", JSON.stringify(this.random_game_session));
+        }
+        if (to_save.includes("settings")) {
+            window.localStorage.setItem("settings", JSON.stringify(this.settings));
         }
     }
 
@@ -92,7 +120,7 @@ export class Storage {
             }
         }
         if (to_load.includes("daily")) {
-            let daily_data = window.localStorage.getItem("daily");
+            let daily_data = window.localStorage.getItem(`daily_${this.game_index}`);
             if (daily_data) {
                 this.daily_game_session = JSON.parse(daily_data);
             } else {
@@ -105,6 +133,14 @@ export class Storage {
                 this.random_game_session = JSON.parse(random_data);
             } else {
                 this.random_game_session = this.default("random");
+            }
+        }
+        if (to_load.includes("settings")) {
+            let settings_data = window.localStorage.getItem("settings");
+            if (settings_data) {
+                this.settings = JSON.parse(settings_data);
+            } else {
+                this.settings = this.default("settings");
             }
         }
     }

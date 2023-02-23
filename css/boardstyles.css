@@ -1,0 +1,215 @@
+/* ========================= xordle keyboard ============================ */
+
+:root {
+    --correctcol: hsl(120,34%,48%);
+    --presentcol: hsl(47, 100%, 42%);
+    --inactivecol: hsl(218, 61%, 63%);
+}
+
+#keyboard {
+    width: 300px;
+    margin: auto;
+}
+
+.keyboard-row {
+    width: 300px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* keyboard letter tiles */
+.key-tile {
+    background-color: hsl(0, 0%, 75%);
+    cursor: pointer;
+    border: 1.5px solid #969696;
+    border-radius: 3.75px;
+    width: 24px;
+    height: 30px;
+    margin: 1.5px;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pseudo-key-tile {
+    background-color: hsl(0, 0%, 75%);
+    border: 1.5px solid #969696;
+    border-radius: 3.75px;
+    width: 24px;
+    height: 30px;
+    margin: 1.5px;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wide-key-tile {
+    background-color: hsl(0, 0%, 75%);
+    cursor: pointer;
+    border: 1.5px solid #969696;
+    border-radius: 3.75px;
+    width: 54px;
+    height: 30px;
+    margin: 1.5px;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* keyboard colour count tile */
+.key-counter-tile {
+    background-color: hsl(0, 0%, 75%);
+    border: 1.5px solid rgb(150, 150, 150);
+    border-radius: 3.75px;
+    width: 93.75px;
+    height: 30px;
+    margin: 1.5px;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ======================= xordle game board ============================ */
+
+#game {
+    align-items: center;
+}
+
+#board {
+    width: 240px;
+    height: 270px;
+    align-self: center;
+    padding-left: 15px;
+    margin: auto;
+    margin-top: 2.25px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tile {
+    /* entry tile */
+    border: 1.5px solid rgb(150, 150, 150);
+    border-radius: 3.75px;
+    width: 37.5px;
+    height: 37.5px;
+    margin: 1.5px;
+
+    color: black;
+    font-size: 25px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+}
+
+.darkmode .tile {
+    /* entry tile */
+    border: 1.5px solid rgb(200, 200, 200);
+    color: white;
+}
+
+.inactive {
+    /* inactive entry tile has different text and bg colour */
+    color: var(--inactivecol);
+    background-color: hsl(0, 0%, 88%)
+}
+
+.darkmode .inactive {
+    /* inactive entry tile has different text and bg colour */
+    color: var(--inactivecol);
+    background-color:hsl(0, 0%, 20%)
+}
+
+.correct:not(.activekey) {
+    /* tile when letter in right spot */
+    background-color: var(--correctcol);
+    color: hsla(0, 0%, 96%);
+    border-color: black
+}
+
+.darkmode .correct:not(.activekey){
+    border-color: hsl(0, 0%, 96%);
+}
+
+.present:not(.activekey) {
+    /* tile when letter in answer elsewhere */
+    background-color: var(--presentcol);
+    color: hsl(0, 0%, 96%);
+    border-color: black
+}
+
+.darkmode .present:not(.activekey) {
+    /* tile when letter in answer elsewhere */
+    border-color: hsl(0, 0%, 96%);
+}
+
+.absent:not(.activekey) {
+    /* tile when letter not in answer */
+    background-color: hsl(0, 0%, 55%);
+    color: hsl(0, 0%, 96%);
+    border-color: hsla(0, 0%, 55%, 0.6);
+}
+
+/* annotation for keyboard tiles that are notes in the other guess */
+.darkmode .activekey {
+    background-color: var(--inactivecol);
+    border-color: hsl(0, 0%, 96%);
+    color: hsl(0, 0%, 96%);
+}
+
+/* annotation for keyboard tiles that are notes in the other guess */
+.activekey {
+    background-color: var(--inactivecol);
+    border-color: black;
+    color: hsl(0, 0%, 96%);
+}
+
+.huhtile {
+    /* special tile for xordle "huh?" */
+    border: 1.5px solid white;
+    border-radius: 3.75px;
+    width: 9px;
+    height: 37.5px;
+    padding-left: 7.5px;
+    margin: 1.5px;
+
+    color: black;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.darkmode .huhtile {
+    /* special tile for xordle "huh?" */
+    border: 1.5px solid hsl(0, 0%, 10%);
+    color: white;
+}

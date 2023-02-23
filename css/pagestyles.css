@@ -1,0 +1,319 @@
+/* ============================ title bar ============================== */
+
+#title {
+    font-size: 27px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    display: inline-block;
+}
+
+.titleblock {
+    width: 500px;
+    display: inline-block;
+    align-content: center;
+    margin: 0, auto;
+}
+
+.shortsymbolbutton {
+    border: 1.5px;
+    width: 24px;
+    cursor: pointer;
+    height: 30px;
+    margin: 3px, 0;
+
+    color: rgb(100, 100, 100);
+    font-size: 24px;
+    font-family: Material Icons;
+    font-weight: bold;
+    display: inline-block;
+    align-items: center;
+}
+
+.darkmode .shortsymbolbutton {
+    color: white;
+}
+
+/* ======================== bottom HUD: timer ========================== */
+
+#timerstuff {
+    width: 112.5px;
+    display: inline-block;
+    align-content: center;
+    margin: 0, auto;
+    position:relative;
+    opacity:1;
+    transition: opacity 0.2s linear;
+    top: 1px;
+    right: 18.75px;
+}
+
+.symbol {
+    border: 1.5px;
+    width: 24px;
+    height: 30px;
+    margin: 3px, 0;
+
+    color: rgb(100, 100, 100);
+    font-size: 18px;
+    font-family: Material Icons;
+    position:relative; 
+    top: 2.25px;
+    left: 2.25px;
+    font-weight: bold;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+}
+
+.symbolpreview {
+    border: 1.5px;
+    width: 24px;
+    height: 30px;
+    position: relative;
+    bottom: 6px;
+
+    color: rgb(100, 100, 100);
+    font-size: 24px;
+    font-family: Material Icons;
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.darkmode .symbolpreview {
+    color: white;
+}
+
+.darkmode .symbol {
+    color: white;
+}
+
+#timer {
+    border: 1.5px;
+    width: 54px;
+    height: 30px;
+    margin: 0, 3px;
+
+    font-size: 18px;
+    color: rgb(50, 50, 50);
+    font-weight: bold;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+}
+
+.darkmode #timer {
+    color: white;
+}
+
+/* ==================== bottom HUD: give up button ===================== */
+
+#giveup {
+    background-color: #b75757;
+    border: 1.5px solid #8f3d3d;
+    border-radius: 2.25px;
+    cursor: pointer;
+    width: 84px;
+    height: 24px;
+    margin: 1.5px;
+
+    color: white;
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: bold;
+    display: inline-block;
+    text-transform: uppercase;
+    justify-content: center;
+    align-content: center;   
+}
+
+#giveup:hover {
+   background-color: #a01c1c;
+   border: 1.5px solid #bb3e3e;
+}
+
+/* ==================== bottom HUD: share button ====================== */
+
+#share {
+   background-color: #57b757;
+   border: 1.5px solid #3d8f3d;
+   border-radius: 3.75px;
+   cursor: pointer;
+   width: 84px;
+   height: 24px;
+   margin: 1.5px;
+
+   color: white;
+   font-size: 18px;
+   line-height: 24px;
+   font-weight: bold;
+   display: none;
+   text-transform: uppercase;
+   justify-content: center;
+   align-content: center;   
+}
+
+#share:hover {
+   background-color: #1ca01c;
+   border: 1.5px solid #3ebb3e;
+}
+
+/* ============================== modals =============================== */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: hidden
+}
+
+.darkmode .modal {
+    background-color: hsla(0, 0%, 25%, 0.75);
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 7.5px;
+    border: 0.75px solid black;
+    margin: 2% auto 2% auto;
+    padding: 15px;
+    max-height: 85%;
+    width: 625px;
+    color: black;
+    max-width: 625px;
+    overflow: auto;
+}
+
+.darkmode .modal-content {
+    background-color: hsl(0, 0%, 10%);
+    border: 0.75px solid lightgrey;
+    color: white;
+}
+
+.pageselect {
+    position: relative;
+    left: 150px;
+    width: 325px;
+}
+
+/* =========================== stats modal ============================= */
+
+.statsblock {
+    width: 600px;
+    font-size: 0px;
+    display: inline-block;
+    align-content: center;
+    margin: 0, auto;
+}
+
+.statblock {
+    display: inline-block;
+    max-width: 80px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: auto;
+}
+
+.stattext {
+    font-size: 24px;
+    text-align: center;
+    padding: none;
+}
+
+/* ============= settings modal: colour blindness settings ============= */
+
+.selector {
+    position: relative;
+}
+
+.box {
+    width: 18px;
+    height: 18px;
+    border: solid 2px black;
+    cursor: pointer;
+    display: inline-block;
+    background-color: hsl(var(--box-color), var(--box-shadeval), var(--box-lightval));
+}
+
+.darkmode .box {
+    border: solid 2px white;
+}
+
+.box.selected {
+    width:18px;
+    height:18px;
+    border: solid 2px white;
+}
+
+.box.blocked {
+    background-color: hsl(var(--box-color), 0%,  var(--box-lightval));
+    cursor: auto;
+}
+
+.darkmode .box.selected {
+    border: solid 2px black;
+}
+
+.box:hover:not(.blocked) {
+    background-color: hsl(var(--box-color), var(--box-shadeval), 80%) ;
+}
+
+.selector .menu {
+    visibility: hidden;
+    width: 170px;
+    border: 15px solid black;
+    font-size: 20px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    opacity: 0;
+    padding: 5px 0;
+    transition: opacity 0.1s linear;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 10;
+    bottom: 75%;
+    left: 50%;
+    margin-left: -106px;
+}
+
+.darkmode .selector .menu{
+    background-color: white;
+    border: 15px solid white;
+    color: black;
+}
+
+.selector .menu::after {
+    content: " ";
+    position: absolute;
+    top: 118%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+.darkmode .selector .menu::after {
+    content: " ";
+    position: absolute;
+    top: 118%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+}
+  
+.selector:hover .menu {
+    visibility: visible;
+    opacity: 1;
+}

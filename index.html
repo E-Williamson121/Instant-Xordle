@@ -1,48 +1,455 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta content="text/html">
         <title>Instant Xordle</title>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./css/styles.css">
+        <link rel="stylesheet" href="./css/pagestyles.css?v=1.1.0" type="text/css">
+        <link rel="stylesheet" href="./css/generalstyles.css?v=1.1.0" type="text/css">
+        <link rel="stylesheet" href="./css/boardstyles.css?v=1.1.0" type="text/css">
+        <link rel="stylesheet" href="./css/calendarstyles.css?v=1.1.0" type="text/css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="icon" href="https://xordle.xyz/favicon.png">
-        <script type="module" src="./js/main.js"></script>
-        <script type="module" src="./js/xordleboard.js"></script>
-        <script type="module" src="./js/keyboard.js"></script>
-        <script type="module" src="./js/xordlecolouring.js"></script>
-        <script type="module" src="./js/validation.js"></script>
-        <script type="module" src="./js/wordlists.js"></script>
-        <script type="module" src="./js/timing.js"></script>
-        <script type="module" src="./js/storage.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet">
+        <link rel="icon" href="https://xordle.xyz/favicon.png" type="image/png">
+
+        <!-- instant xordle code -->
+        <script type="module" src="./js/main.js" type="application/javascript"></script>
+        <script type="module" src="./js/xordleboard.js" type="application/javascript"></script>
+        <script type="module" src="./js/keyboard.js" type="application/javascript"></script>
+        <script type="module" src="./js/xordlecolouring.js" type="application/javascript"></script>
+        <script type="module" src="./js/validation.js" type="application/javascript"></script>
+        <script type="module" src="./js/wordlists.js" type="application/javascript"></script>
+        <script type="module" src="./js/timing.js" type="application/javascript"></script>
+        <script type="module" src="./js/storage.js" type="application/javascript"></script>
+        <script type="module" src="./js/barchart.js" type="application/javascript"></script>
+        <script type="module" src="./js/calendar.js" type="application/javascript"></script>
+
+        <!-- external modules -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js" type="application/javascript"></script> <!-- chart support -->
     </head>
-    <body>
-        <h1 id="title" class="noselect">Instant Xordle</h1>
+    <body id="body">
+        <div class="titleblock noselect">
+            <span class="shortsymbolbutton" id="help">help</span>
+            &nbsp;
+            <span class="shortsymbolbutton" id="settings">settings</span>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <div class="blockspacer"></div>
+            <h1 id="title">Instant Xordle</h1>
+            <div class="blockspacer"></div>
+            <span class="shortsymbolbutton" id="random">bolt</span>
+            &nbsp;
+            <span class="shortsymbolbutton" id="stats">bar_chart</span>
+            &nbsp;
+            <span class="shortsymbolbutton" id="calendar">calendar_month</span>
+        </div>
         <hr>
-        <br>
+
+        <div class="tooltip noselect", id="help-tooltip">Instructions</div>
+        <div class="tooltip noselect", id="settings-tooltip">Settings</div>
+        <div class="tooltip noselect", id="random-tooltip">Random Puzzle</div>
+        <div class="tooltip noselect", id="stats-tooltip">Daily Game Stats</div>
+        <div class="tooltip noselect", id="calendar-tooltip">Calendar</div>
         
-        <div id="game">
+        <div id="game" class="noselect">
 
+            <div><h3 id="header">Daily Instant Xordle #15</h3></div>
+
+            <!-- game board -->
             <div id="board"></div>
-            <br>
+            <span class="noselect vertspace"></span>
 
+            <!-- status message -->
             <div id="status"></div>
-            <br>
 
-            <div id="centerstuff">
+            <div id="centerblock" class="noselect">
+                <!-- game timer -->
                 <div id="timerstuff">
-                    <div id="timerbutton"></div>
+                    <div class="symbol" id="timerbutton"></div>
                     <div id="timer"></div>
                 </div>
                 <div class="blockspacer"></div>
+                <!-- give up/replay buttons -->
                 <div id="giveup">give up</div>
-                <div id="replay">replay</div>
+                <div id="share">share</div>
             </div>
-            <br>
-            <br>
-            <br>
+            <br class="noselect">
 
             <div id="keyboard"></div>
+        </div>
+
+        <div id="help-modal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content noselect">
+                <!-- help/instructions -->
+                <div id="page1">
+                    <span class="centertext"><h2>How to play</h2></span>
+                    <div class="align-left">
+                        <p>Welcome to Instant Xordle, A spinoff of the popular wordle-like game, 
+                            <a href="https://www.xordle.xyz">Xordle</a>.</p>
+                        <hr>
+
+                        <p>
+                            In Instant Xordle, there are two secret words. </p>
+                        <p>
+                            The pair of secret words are <i>disjoint</i> - no letter appears in both. </p>
+                        <p>
+                            The game board is pre-filled with guesses which determine the pair of words uniquely. </p>
+                        <p>
+                            To win, you must use the information given to figure out the pair of secret words.
+                        </p>
+                    </div>
+                </div>
+                <div id="page2">
+                    <span class="centertext"><h2>Tile colours</h2></span>
+                    <hr>
+                    <div class="align-left">
+                        <p>The rules for how tiles are coloured are identical to in the original Xordle, 
+                            holding information about the two secret words.</p>
+                        
+                        <div class="inlineblocks">
+                            <div class="inlineblock"><div class="tile correct"></div></div>
+                            <div class="textblock">If a tile is coloured <span class="correct_colourname"></span>, 
+                                the letter it contains is in the same position in one of the two secret words.</div>
+                        </div>
+                        <div class="inlineblocks">
+                            <div class="inlineblock"><div class="tile present"></div></div>
+                            <div class="textblock">If a tile is coloured <span class="present_colourname"></span>, 
+                                the letter it contains is in one of the two secret words, but not in that position.</div>
+                        </div>
+                        <div class="inlineblocks">
+                            <div class="inlineblock"><div class="tile absent"></div></div>
+                            <div class="textblock">If a tile is coloured grey, 
+                                the letter it contains is not in either of the two secret words.</div>
+                        </div>
+                        
+                        <p>
+                            Colouring of tiles occurs from left to right,
+                            all <span class="correct_colourname"></span> tiles are coloured first,
+                            then all <span class="present_colourname"></span> tiles are coloured.
+                        </p>
+
+                        <p>
+                            In the case of repeated letters, once the number of tiles coloured with a letter is equal to 
+                            the number of occurences of this letter in the secret words, 
+                            all subsequent tiles with this letter will be coloured grey.
+                        </p>
+                        <p>
+                            A count of how many unique letters have been found in each colour
+                            is also included at the bottom of the keyboard.
+                        </p>
+                    </div>
+                </div>
+                <div id="page3">
+                    <span class="centertext"><h2>Tile colours</h2></span>
+                    <hr>
+                    <div class="align-left">
+                        <p>For example, for the line of the grid below:</p>
+                    </div>
+                    <div class="centerblock">
+                        <div class="inlineblock"><div class="tile present">C</div></div>
+                        <div class="inlineblock"><div class="tile absent">L</div></div>
+                        <div class="inlineblock"><div class="tile correct">A</div></div>
+                        <div class="inlineblock"><div class="tile correct">N</div></div>
+                        <div class="inlineblock"><div class="tile absent">K</div></div>
+                    </div>
+                    <div class="align-left">
+                        <p>The following things are true:</p>
+                        <ul>
+                            <li>The secret words are TYING and REACH</li>
+                            <li>The A in CLANK is in the same position as the A in REACH, so it is coloured <span class="correct_colourname"></span></li>
+                            <li>The N in CLANK is in the same position as the N in TYING, so it is also coloured <span class="correct_colourname"></span></li>
+                            <li>The C in CLANK is in a different position to the C in REACH, so it is coloured <span class="present_colourname"></span></li>
+                            <li>K is not a letter in either TYING or REACH, so the K in CLANK is coloured grey</li>
+                          </ul>
+                    </div>
+                </div>
+                <div id="page4">
+                    <span class="centertext"><h2>Two rows</h2></span>
+                    <hr>
+                    <div class="align-left">
+                        <p>To win at Instant Xordle, you must enter both secret words at once. For this you have two rows of input tiles. </p>
+                        <p>You can use the up/down arrow keys or click the grayed-out row of input tiles to change which row is selected, 
+                            and enter your word choices with the keyboard</p> 
+                        <p>Any letters entered into a deselected row will be highlighted on the keyboard in <span class="inactive_colourname"></span>.
+                            This is to make it easier to keep track of which letters you used in that guess.</p>
+                        <p>Shown below are a row of selected tiles with DRIED entered, and a row of deselected tiles with CLANK entered.</p>
+                    </div>
+                    <div class="centerblock">
+                        <div class="inlineblock"><div class="tile">D</div></div>
+                        <div class="inlineblock"><div class="tile">R</div></div>
+                        <div class="inlineblock"><div class="tile">I</div></div>
+                        <div class="inlineblock"><div class="tile">E</div></div>
+                        <div class="inlineblock"><div class="tile">D</div></div>
+                    </div>
+                    <div class="centerblock">
+                        <div class="inlineblock"><div class="tile inactive">C</div></div>
+                        <div class="inlineblock"><div class="tile inactive">L</div></div>
+                        <div class="inlineblock"><div class="tile inactive">A</div></div>
+                        <div class="inlineblock"><div class="tile inactive">N</div></div>
+                        <div class="inlineblock"><div class="tile inactive">K</div></div>
+                    </div>
+                </div>
+                <div id="page5">
+                    <span class="centertext"><h2>Guess feedback</h2></span>
+                    <hr>
+                    <div class="align-left">
+                        <p>If you submit a pair of words that doesn't work, the puzzle will always tell you why it failed.</p>
+                        <p>
+                            Remember, the solution is determined uniquely by the information in the grid, 
+                            so don't be afraid to hit enter to check!
+                        </p>
+                        <p>For example, for the shown group of rows:</p>
+                    </div>
+                    <div class="centerblock">
+                        <div class="inlineblock"><div class="tile present">C</div></div>
+                        <div class="inlineblock"><div class="tile absent">L</div></div>
+                        <div class="inlineblock"><div class="tile correct">A</div></div>
+                        <div class="inlineblock"><div class="tile correct">N</div></div>
+                        <div class="inlineblock"><div class="tile absent">K</div></div>
+                    </div>
+                    <div class="centerblock">
+                        <div class="inlineblock"><div class="tile">W</div></div>
+                        <div class="inlineblock"><div class="tile">H</div></div>
+                        <div class="inlineblock"><div class="tile">I</div></div>
+                        <div class="inlineblock"><div class="tile">T</div></div>
+                        <div class="inlineblock"><div class="tile">E</div></div>
+                    </div>
+                    <div class="centerblock">
+                        <div class="inlineblock"><div class="tile inactive">B</div></div>
+                        <div class="inlineblock"><div class="tile inactive">R</div></div>
+                        <div class="inlineblock"><div class="tile inactive">A</div></div>
+                        <div class="inlineblock"><div class="tile inactive">N</div></div>
+                        <div class="inlineblock"><div class="tile inactive">D</div></div>
+                    </div>
+                    <div class="align-left">
+                        <p>You'd get the feedback: "Guess must contain at least one C", due to the <span class="present_colourname"></span> C in CLANK.</p>
+                        <p>These feedback messages always show up underneath the puzzle, and disappear once you start typing again.</p>
+                    </div>
+                </div>
+                <div id="page6">
+                    <span class="centertext"><h2>HUD Buttons</h2></span>
+                    <hr>
+                    <div class="align-left">
+                        <p>Buttons shown alongside the title at the top of the page have a variety of functions.
+                            Shown below is an image of each button, alongside an explanation of its function.</p>
+                    </div>
+
+                    <div class="inlineblocks">
+                        <div class="symbolpreview">help</div>
+                        <div class="textblock align-left vertical-center"><p>Open these instructions to read them again at any time.</p></div>
+                    </div>
+
+                    <div class="inlineblocks">
+                        <div class="symbolpreview">settings</div>
+                        <div class="textblock align-left vertical-center">
+                               <p>Open the settings menu.
+                                Settings available offer controls over the game timer and the colour of various display elements.</p>
+                        </div>
+                    </div>
+
+                    <div class="inlineblocks">
+                        <div class="symbolpreview">calendar_month</div>
+                        <div class="textblock align-left vertical-center">
+                            <p>Open the calendar of all currently accessible daily puzzles.
+                                Clicking on a day in the calendar will take you to the puzzle from that day,
+                                and at the end of each month you can share your monthly results.</p>
+                        </div>
+                    </div>
+
+                    <div class="inlineblocks">
+                        <div class="symbolpreview">bar_chart</div>
+                        <div class="textblock align-left vertical-center">
+                            <p>View your personal game statistics.
+                                This includes things like your streak and win rate, 
+                                as well as your average solve time and a bar chart showing the time taken for each of your solved games.</p>
+                        </div>
+                    </div>
+
+                    <div class="inlineblocks">
+                        <div class="symbolpreview">bolt</div>
+                        <div class="textblock align-left vertical-center">
+                            <p>Start a new random puzzle.
+                                Random puzzles you play will have no effect on your game statistics, but can be shared upon completion.
+                            <span class="greytext">(Daily puzzles and random puzzles come from different datasets)</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div id="page7">
+                    <span class="centertext"><h2>Have fun</h2></span>
+                    <hr>
+                    <div class="align-left">
+                        <p>That's all for the instructions. I hope you enjoy playing this spinoff.</p>
+                    </div>
+                    <div class="centerblock">
+                        <div class="inlineblock"><div class="tile correct">H</div></div>
+                        <div class="inlineblock"><div class="tile correct">A</div></div>
+                        <div class="inlineblock"><div class="tile correct">P</div></div>
+                        <div class="inlineblock"><div class="tile correct">P</div></div>
+                        <div class="inlineblock"><div class="tile correct">Y</div></div>
+                    </div>
+                    <div class="centerblock">
+                        <div class="inlineblock"><div class="tile correct">S</div></div>
+                        <div class="inlineblock"><div class="tile correct">O</div></div>
+                        <div class="inlineblock"><div class="tile correct">L</div></div>
+                        <div class="inlineblock"><div class="tile correct">V</div></div>
+                        <div class="inlineblock"><div class="tile correct">E</div></div>
+                    </div>
+                </div>
+                <hr>
+                <div class="pageselect">
+                    <div class="leftblock"><u class="align-left" id="prevpage">&lt;prev</u></div>
+                    <div class="rightblock"><u class="align-right" id="nextpage">next&gt;</u></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="stats-modal" class="modal">
+            <div class="modal-content">
+                <span class="centertext noselect"><h2>Game Results</h2></span>
+                <!-- overall stats -->
+                <div class="statsblock noselect">
+                    <div class="statblock">
+                        <span id="statplays" class="stattext">10</span>
+                        <h6>GAMES PLAYED</h6>
+                    </div>
+                    <div class="statblock">
+                        <span id="statwins" class="stattext">10</span>
+                        <span class="vertspace"></span>
+                        <h6>GAMES WON</h6>
+                        <span class="vertspace"></span>
+                    </div>
+                    <div class="statblock">
+                        <span id="statwinpct" class="stattext">100%</span>
+                        <span class="vertspace"></span>
+                        <h6>WIN RATE</h6>
+                        <span class="vertspace"></span>
+                    </div>
+                    <div class="statblock">
+                        <span id="statstreak" class="stattext">10</span>
+                        <h6>CURRENT STREAK</h6>
+                    </div>
+                    <div class="statblock">
+                        <span id="statbeststreak" class="stattext">10</span>
+                        <h6>BEST STREAK</h6>
+                    </div>
+                    <div id="timestat" class="statblock">
+                        <span id="statavgtime" class="stattext">10</span>
+                        <h6>AVERAGE SOLVE TIME</h6>
+                    </div>
+                </div>
+                
+                <hr>
+                <!-- bar chart of game win rate -->
+                <div id="chartstuff">
+                    <canvas class="chart" id="myChart"></canvas>
+                    <span class="centertext noselect">Time (minutes)</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings-modal" class="modal">
+            <div class="modal-content">
+                <span class="centertext noselect"><h2>Settings</h2></span>
+                
+                <hr>
+                
+                <div class="noselect">
+                    <input type="checkbox" id="hidetimer" class="uibutton">
+                    <label for="hidetimer"> Hide the puzzle timer during games</label><br>
+                    <input type="checkbox" id="sharetimer" class="uibutton">
+                    <label for="sharetimer"> Include timing stats in share text</label><br>
+                    <input type="checkbox" id="darkmode" class="uibutton">
+                    <label for="darkmode"> Dark mode</label><br>
+                </div>
+
+                <hr>
+
+                <span class="centertext noselect"><h3>Appearance settings</h3></span>
+
+                <div class="centertext noselect">Shown below are various game elements. </br>
+                    Hover over them with the mouse to select alternative colouring schemes.</div>
+
+                <hr>
+
+                <div class="centerblockwider noselect">
+                    <div class="inlineblock selector">
+                        <div class="inlineblock">
+                            <div class="pseudo-key-tile correct">A</div>
+                        </div>
+                        <div class="inlineblock">
+                            <div class="tile correct">A</div>
+                        </div>
+                        <div class="menu" id="correctselect"></div>
+                    </div>
+                    <div class="centertext greytext">(Appearance of letters which are in the correct position)</div>
+                    </br>
+                </div>
+
+                <div class="centerblockwider noselect">
+                    <div class="inlineblock selector">
+                        <div class="inlineblock">
+                            <div class="pseudo-key-tile present">A</div>
+                        </div>
+                        <div class="inlineblock">
+                            <div class="tile present">A</div>
+                        </div>
+                        <div class="menu" id="presentselect"></div>
+                    </div>
+                    <div class="centertext greytext">(Appearance of letters which are in the answer in a different position)</div>
+                    </br>
+                </div>
+
+                <div class="centerblockwider noselect">
+                    <div class="inlineblock selector">
+                        <div class="inlineblock">
+                            <div class="pseudo-key-tile activekey">A</div>
+                        </div>
+                        <div class="inlineblock">
+                            <div class="tile inactive">A</div>
+                        </div>
+                        <div class="menu" id="inactiveselect"></div>
+                    </div>
+                    <div class="centertext greytext">(Appearance of letters which are highlighted from a deselected row)</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="calendar-modal" class="modal">
+            <div class="modal-content">
+                <span class="centertext noselect"><h2>Calendar</h2></span>
+                
+                <hr>
+                
+                <div class="centerblock">
+                    <div class="calendar-container">
+                        <div class="calendar">
+                            <div class="month">
+                                <i class="fa fa-angle-left prevmonth"></i>
+                                <div class="noselect">
+                                    <h4></h4>
+                                    <p></p>
+                                </div>
+                                <i class="fa fa-angle-right nextmonth"></i>
+                            </div>
+                            <div class="weekdays noselect">
+                                <div class="day">Sun</div>
+                                <div class="day">Mon</div>
+                                <div class="day">Tue</div>
+                                <div class="day">Wed</div>
+                                <div class="day">Thu</div>
+                                <div class="day">Fri</div>
+                                <div class="day">Sat</div>
+                            </div>
+                            <div class="daytiles noselect"></div>
+                            <br>
+                            <button id="monthlyshare" type="button">Share Monthly Results</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

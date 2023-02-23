@@ -4,10 +4,12 @@ import {Validate} from "./validation.js";
 
 // class that handles all functionality relating to the main game board
 export class Game_Board{
-    constructor(board_width, game_words, game_storage, game_mode) {
+    constructor(board_width, game_words, game_storage, game_mode, settings) {
         this.game_mode = game_mode;
         this.game_storage = game_storage;
         this.stats_lock = false;
+
+        this.settings = settings;
 
         this.width = board_width;
         this.height = 5;
@@ -39,8 +41,17 @@ export class Game_Board{
         this.keyboard = new KeyBoard(this, this.keyboard);
 
         this.timer = new SimpleTimer(this.game_storage, this.game_mode);
+        this.game_storage.timer = this.timer;
 
         this.setup_controls();
+
+        // prevent scrolling with up/down arrows
+        window.addEventListener("keydown", (e) => {
+            if (e.code == "ArrowDown" || e.code == "ArrowUp") {
+                e.preventDefault(); 
+            }
+        })
+
         this.auto_fill(first_words);
 
         // A guess was previously entered, so auto-submit it.
@@ -51,11 +62,9 @@ export class Game_Board{
             if (storage["won_game"]) {
                 this.status.innerText = `You won! The words were ${this.words[0]} and ${this.words[1]}.`;
             }
-            this.timer.div.innerText = this.timer.digital_time();
             return;
         } 
 
-        this.timer.tick(this.timer);
         this.timer.start();
     }
 
@@ -152,7 +161,6 @@ export class Game_Board{
 
         if (key == "Enter") {
             // submit word (can alter status message, so returns early)
-            this.timer.unpause();
             this.submit_pair();
             return;
         }
@@ -160,7 +168,6 @@ export class Game_Board{
         if ((("KeyA" <= key && key <= "KeyZ") || (["Backspace", "ArrowDown", "ArrowUp"].includes(key)))) {
             // normal inputs reset the status message
             this.default_status_message();
-            this.timer.unpause();
         }
 
         // alphabetical keys
@@ -260,7 +267,7 @@ export class Game_Board{
         let storage = this.get_board_storage()
         storage["game_guess"] = [word1, word2];
         if (storage["won_game"] == null) storage["won_game"] = true;
-        if (!(this.stats_lock)) {
+        if (!(this.stats_lock) && this.game_mode == "daily") {
             this.game_storage.update_globals(true, this.timer.time);
         }
         this.game_storage.save_data(["globals", this.game_mode]);
@@ -284,7 +291,7 @@ export class Game_Board{
         let storage = this.get_board_storage()
         storage["game_guess"] = this.words;
         if (storage["won_game"] == null) storage["won_game"] = false;
-        if (!(this.stats_lock)) {
+        if (!(this.stats_lock) && this.game_mode == "daily") {
             this.game_storage.update_globals(false, this.timer.time);
         }
         this.game_storage.save_data(["globals", this.game_mode]);
@@ -379,5 +386,42 @@ export class Game_Board{
 
             keyboard[tile.innerText].update_status(colour, counters);
         }
+    }
+
+    generate_share_message(timer_hidden){
+        let head = "";
+        let tail = "";
+        let puzzle_header = document.getElementById("header");
+        let time = document.getElementById("timer");
+        if (this.get_board_storage()["won_game"]) {
+            // game won
+            let time_taken = time.textContent;
+            if (timer_hidden) time_taken = "";
+            head = `${puzzle_header.textContent}: ${this.height}/${this.height}, ${time_taken}\n`; // daily xordle #xxx: ☑
+            tail = `${this.settings.game_symbols["correct"].repeat(5)}\n${this.settings.game_symbols["correct"].repeat(5)}`;
+        } else {
+            // game lost
+            head = `${puzzle_header.textContent}: X/${this.height}\n`; // daily xordle #xxx:
+            tail = `${this.settings.game_symbols["absent"].repeat(5)}\n${this.settings.game_symbols["absent"].repeat(5)}`;
+        }
+    
+        let board = "";
+        // get board colours
+        for (var y = 0; y < this.height-2; y++) {
+            for (var x = 0; x < this.width; x++) {
+                let tile = document.getElementById(`${x}-${y}`);
+                if (tile.classList.contains("correct")) {
+                    board = `${board}${this.settings.game_symbols["correct"]}`;
+                } else if (tile.classList.contains("present")) {
+                    board = `${board}${this.settings.game_symbols["present"]}`;
+                } else {
+                    board = `${board}${this.settings.game_symbols["absent"]}`;
+                }
+            }
+            board = `${board}\n`;
+        }
+    
+        let message = `${head}${board}${tail}\nPlay at ${window.location.href}`
+        navigator.clipboard.writeText(message).then(() => alert(`Game result copied to clipboard.`));
     }
 }

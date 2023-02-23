@@ -3,6 +3,10 @@ import {wordlist} from "./wordlists.js";
 
 export function Validate(word1, word2, prev_guesses, prev_colourings) {
     // step 1: check length of words is valid
+    if (word1.length == 5 && word2.length == 0) {
+        // special feedback for a person who pressed enter thinking it was one word at a time.
+        return ("You can use up/down arrow keys or click light gray tiles to change word");
+    }
     if (word1.length != 5 || word2.length != 5) {
         return ("Both words must be 5 letters long");
     }

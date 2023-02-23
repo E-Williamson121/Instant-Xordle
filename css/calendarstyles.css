@@ -1,0 +1,184 @@
+.calendar-container {
+    margin: 0;
+    padding: 0;
+    width: 375px;
+    height: 400px;
+    box-sizing: border-box;
+    font-family: "Quicksand", sans-serif;
+    background-color: #edfded;
+    font-size: 10px;
+    color: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.darkmode .calendar-container{
+    background-color: hsl(120, 15%, 13%); /* darkest colour */
+}
+
+.calendar {
+    width: 350px;
+    height: 350px;
+    background-color: #dde9dd;
+    box-shadow: 3px, 6px, rgb(255,255,255,0.4);
+}
+
+.darkmode .calendar{
+    background-color: hsl(120, 15%, 24%); /* middle dark */
+}
+
+.month {
+    width: 344px;
+    height: 70px;
+    background-color: #a9e9a9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px;
+    text-align: center;
+    text-shadow: 3px, 6px rgb(255, 255, 255, 0.5);
+}
+
+.darkmode .month {
+    background-color: hsl(120, 15%, 35%); /* lightest dark */
+}
+
+.month i {
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+.month h4 {
+    font-size: 30px;
+    margin-block-start: 0.5em;
+    margin-block-end: 0em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.darkmode .month h4 {
+    color: #eee;
+}
+
+.month p {
+    font-size: 14px;
+    color: #2b322b;
+    opacity: 0.5;
+    margin-block-start: 0em;
+}
+
+.darkmode .month p {
+    color: hsl(120, 15%, 74%);
+    opacity: 0.75;
+}
+
+.weekdays {
+    width: 350px;
+    height: 50px;
+    padding: 0, 0.4em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;    
+    text-decoration: underline;
+    text-decoration-color:#90aa90
+}
+
+.darkmode .weekdays {
+    color: white;
+}
+
+.day {
+    font-size: 16px;
+    font-weight: 350px;
+    letter-spacing: 0.5px;
+    width: calc(280px / 7);
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    padding-right: 5px;
+    padding-left: 5px;
+    align-items: center;
+    text-shadow: 0, 0.3rem, 0.5rem, rgba(255,255,255,0.5);
+}
+
+.daytiles {
+    width: 350px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.daytiles div {
+    font-size: 12px;
+    width: 48px;
+    height: 33px;
+    border: 1px solid #dde9dd;
+    display: flex;
+    transition: background-color 0.2s;
+}
+
+.darkmode .daytiles div:not(.today) {
+    border: 1px solid hsl(120, 15%, 24%); /* middle dark */
+    color: white;
+}
+
+.daytiles div .daynumber {
+    text-align: left;
+    vertical-align: top;
+}
+
+.daytiles div .content {
+    text-align: center;
+    padding-top: 10px;
+    padding-left:3px;
+}
+
+.prev-date, .next-date {
+    opacity: 0.5;
+}
+
+.daytiles div:hover:not(.today):not(.prev-date):not(.next-date) {
+    background-color: #d9ffd9;
+    border: 1px solid #555;
+    width: 48px;
+    height: 33px;
+    cursor: pointer;
+}
+
+.darkmode .daytiles div:hover:not(.today):not(.prev-date):not(.next-date)  {
+    background-color: hsl(120, 32%, 41%); /* darkest colour */
+    border: 1px solid #555;
+}
+
+.today {
+    background-color: #90aa90;
+    color: white;
+}
+
+.darkmode .today {
+    background-color: hsl(120, 15%, 50%);
+    border: 1px solid hsl(120, 15%, 40%);
+    color: black;
+}
+
+#monthlyshare {
+    position: relative;
+    top: 8px;
+    background-color: #a9e9a9;
+    border-color: #a9e9a9;
+    transition: background-color 0.1s;
+    cursor: pointer;
+}
+#monthlyshare:hover {
+    background-color: #b8ffb8;
+}
+
+.darkmode #monthlyshare {
+    background-color: #4c674c;
+    color: hsl(120, 15%, 74%);
+    border-color: #4c674c;
+}
+.darkmode #monthlyshare:hover {
+    background-color: #3d763d;
+}

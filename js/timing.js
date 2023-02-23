@@ -11,13 +11,11 @@ export class SimpleTimer {
             this.time = this.storage.daily_game_session["game_timer"];
         }
 
-        this.paused = false;
-
         this.button = document.getElementById("timerbutton");
-        this.button.innerText = "pause"
-        this.button.addEventListener("click", () => this.toggle_pause());
+        this.button.innerText = "timer"
 
         this.div = document.getElementById("timer");
+        this.div.innerText = this.digital_time();
         this.interval = null;
     }
 
@@ -25,30 +23,27 @@ export class SimpleTimer {
         this.interval = setInterval(() => this.tick(this), 1000);
     }
 
-    unpause() {
-        this.paused = false;
-        this.button.innerText = "pause"
-    }
-
-    toggle_pause() {
-        this.paused = !(this.paused);
-        if (this.paused) {
-            this.button.innerText = "play_arrow"
+    end(clear_display) {
+        if (clear_display) {
+            this.div.innerText = "––:––";
         } else {
-            this.button.innerText = "pause"
+            this.div.innerText = this.digital_time();
         }
     }
 
     stop() {
         window.clearInterval(this.interval);
-        this.button.innerText = "check_circle"
+        this.button.innerText = "check_circle";
         // remove click events
         let new_button = this.button.cloneNode(true);
         this.button.parentNode.replaceChild(new_button, this.button);
     }
 
     tick(timer) {
-        if (timer.paused) return;
+        // don't tick when modals are open
+        if (document.body.classList.contains("modal-open")) { 
+            return;
+        }
 
         timer.time = timer.time + 1;
         // timer cannot go over 1 hour
@@ -56,18 +51,17 @@ export class SimpleTimer {
             timer.time = 60*60 - 1;
         }
 
-        // store timer locally (avoids problems in the future)
+        // store timer locally on each tick (means refreshes can allow loading back in at same timer)
         timer.storage.change_session_timer((timer.mode == "random"), timer.time);
         timer.storage.save_data([timer.mode]);
 
         timer.div.innerText = timer.digital_time();
     }
 
-    letter_time() {
-        let s = this.time % 60;
-        let m = Math.floor(this.time/60);
-        if (m == 0) return `${s}s`
-        return `${m}m ${s}s`
+    get_time(t) {
+        let s = t % 60;
+        let m = Math.floor(t/60);
+        return `${this.zero_pad(m)}:${this.zero_pad(s)}`
     }
 
     digital_time() {
